@@ -28,13 +28,13 @@ namespace Assignment2.Data {
                     Email = "santa@np.com", 
                     FirstName = "Santa",
                     LastName = "Claus",
-                    Street = "1 North Pole St",
-                    City = "North Pole",
+                    Street = "555 Seymour St",
+                    City = "Vancouver",
                     Province = "BC",
-                    PostalCode = "V3N 1HC",
+                    PostalCode = "V6B 3H6",
                     Country = "Canada",
-                    Latitude = 49,
-                    Longitude = -123,
+                    Latitude = 49.284193,
+                    Longitude = -123.115276,
                     IsNaugthy = false,
                     BirthDate = new DateTime(1970, 10, 12)
                 };
@@ -57,8 +57,8 @@ namespace Assignment2.Data {
                     Province = "BC",
                     PostalCode = "V5G 3H2",
                     Country = "Canada",
-                    Latitude = 49,
-                    Longitude = -123,
+                    Latitude = 49.250150,
+                    Longitude = -123.000664,
                     IsNaugthy = true,
                     BirthDate = new DateTime(1990, 9, 28)
                 };
