@@ -17,3 +17,11 @@ Santa has full "admin" privileges and are able to see a list of children who sig
 
 - Create profile (via registration)
 - Update profile
+
+### Notes
+
+- Written in C#
+
+- Uses ASP.NET framework
+
+- Uses JWT access tokens
