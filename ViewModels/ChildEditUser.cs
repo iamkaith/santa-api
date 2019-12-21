@@ -17,8 +17,8 @@ namespace Assignment2.ViewModels {
         [MaxLength(7)]
         public string PostalCode { get; set; }
         public string Country { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
 
         /*
          * Transform the ApplicationUser to this model

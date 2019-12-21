@@ -26,12 +26,13 @@ namespace Assignment2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            
+
             services.AddDbContext<ApplicationDbContext>(option => 
                 option.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
                 
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(
+                // Password options
                 option => {
                     option.Password.RequireDigit = false;
                     option.Password.RequiredLength = 6;
@@ -41,7 +42,8 @@ namespace Assignment2
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
+                
+            // JWT
             services.AddAuthentication(option => {
                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -60,7 +62,7 @@ namespace Assignment2
             });
 
             services.AddCors(c => c.AddPolicy("SantaListPolicy", builder => {
-                builder.AllowAnyOrigin()
+                builder.WithOrigins(Configuration["Jwt:Site"])
                 .AllowAnyHeader()
                 .AllowAnyMethod();
             }));

@@ -7,8 +7,10 @@ namespace Assignment2.Models {
 
         public ApplicationUser() : base() {}
 
+        [Required]
         public string FirstName { get; set; }
 
+        [Required]
         public string LastName { get; set; }
         
         public DateTime BirthDate { get; set; }
@@ -25,9 +27,10 @@ namespace Assignment2.Models {
         
         public string Country { get; set; }
 
-        public double Latitude { get; set; }
+        /* Due to limitations with SQLite, Decimal isn't supported. To workaround this Long+Lat values will be stored as a String in the interm */
+        public string Latitude { get; set; }
 
-        public double Longitude { get; set; }
+        public string Longitude { get; set; }
 
         public bool IsNaugthy { get; set; }
 
