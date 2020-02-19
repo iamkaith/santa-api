@@ -22,18 +22,18 @@ namespace Assignment2.Models {
         [MaxLength(2)]
         public string Province { get; set; }
 
-        [MaxLength(7)]
+        // Postal code regex: https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s15.html
+        [MaxLength(7), RegularExpression("^(?!.*[DFIOQU])[A-VXY][0-9][A-Z]●?[0-9][A-Z][0-9]$")]
         public string PostalCode { get; set; }
         
         public string Country { get; set; }
 
-        /* Due to limitations with SQLite, Decimal isn't supported. To workaround this Long+Lat values will be stored as a String in the interm */
-        public string Latitude { get; set; }
+        [Required]
+        public double Latitude { get; set; }
 
-        public string Longitude { get; set; }
+        [Required]
+        public double Longitude { get; set; }
 
         public bool IsNaugthy { get; set; }
-
-        public DateTime DateCreated { get; set; }
     }
 }

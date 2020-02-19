@@ -55,7 +55,6 @@ namespace Assignment2.Controllers
                 Email = model.Email,
                 UserName = model.FirstName,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                DateCreated = DateTime.Now,
             };
 
             var result = await _userManager.CreateAsync(user);

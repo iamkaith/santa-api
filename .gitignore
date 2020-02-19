@@ -14,6 +14,8 @@
 .vscode
 
 # Ignore SQlite db
+santa.sqlite-wal
+santa.sqlite-shm
 santa.sqlite 
 
 # User-specific files (MonoDevelop/Xamarin Studio)

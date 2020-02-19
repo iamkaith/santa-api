@@ -17,8 +17,8 @@ namespace Assignment2.ViewModels {
         [MaxLength(7)]
         public string PostalCode { get; set; }
         public string Country { get; set; }
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
         public bool IsNaugthy { get; set; }
 
         /*
@@ -32,7 +32,7 @@ namespace Assignment2.ViewModels {
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                BirthDate = user.BirthDate.ToString(),
+                BirthDate = user.BirthDate.ToLocalTime().ToLongDateString(),
                 Street = user.Street,
                 City = user.City,
                 Province = user.Province, 
@@ -40,7 +40,7 @@ namespace Assignment2.ViewModels {
                 Country = user.Country,
                 Latitude = user.Latitude,
                 Longitude = user.Longitude,
-                IsNaugthy = user.IsNaugthy
+                IsNaugthy = user.IsNaugthy,
             };
 
             return temp;
