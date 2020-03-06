@@ -31,7 +31,8 @@ namespace Assignment2.Controllers {
             _logger = logger;
             _context = context;
         }
-        
+         
+        // GET: /Admin/Profile
         [HttpGet]
         public async Task<ActionResult> Profile() {
 
@@ -48,6 +49,7 @@ namespace Assignment2.Controllers {
             }
         } 
 
+        // PUT: /Admin/Profile
         [HttpPut]
         public async Task<ActionResult> Profile([FromBody] AdminEditUser model) {
 
@@ -86,6 +88,7 @@ namespace Assignment2.Controllers {
             }
         }
 
+        // GET: /Admin/List
         [HttpGet]
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task<ActionResult> List() {
@@ -110,6 +113,7 @@ namespace Assignment2.Controllers {
             }
         }
 
+        // GET: /Admin/GetChild/{id}
         [Route("{id}")]
         [HttpGet]
         public async Task<ActionResult> GetChild (string id) {
@@ -132,6 +136,7 @@ namespace Assignment2.Controllers {
             }
         }
 
+        // PUT: /Admin/UpdateChild/{id}
         [Route("{id}")]
         [HttpPut]
         public async Task<ActionResult> UpdateChild (string id, [FromBody] AdminEditUser model) {
@@ -175,7 +180,8 @@ namespace Assignment2.Controllers {
                return Unauthorized();
             }
         }
-
+        
+        // DELETE: /Admin/DeleteChild/{id}
         [Route("{id}")]
         [HttpDelete]
         public async Task<ActionResult> DeleteChild (string id) {

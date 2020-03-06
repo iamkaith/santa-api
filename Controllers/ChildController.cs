@@ -31,6 +31,7 @@ namespace Assignment2.Controllers {
             _context = context;
         }
 
+        // GET: /Child/Profile
         [HttpGet]
         public async Task<ActionResult> Profile() {
 
@@ -47,6 +48,7 @@ namespace Assignment2.Controllers {
             }
         } 
 
+        // PUT: /Child/Profile
         [HttpPut]
         public async Task<ActionResult> Profile([FromBody] ChildEditUser model) {
 

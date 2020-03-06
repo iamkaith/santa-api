@@ -31,14 +31,21 @@ namespace Assignment2.Controllers
             _signInManager = signInManager;
         }
 
+        // POST: /Auth/Register
         [HttpPost]
         public async Task<ActionResult> Register([FromBody] Register model) {
+
+            string message;
+
+            // Check if request body passes validation
             if (ModelState.IsValid) {
                 _logger.LogDebug("REGISTER USER: model state is valid");
             }
             else {
                 _logger.LogError("REGISTER USER: modelstate is invalid");
-                return NotFound();
+                message = "Sorry! We are unable to register you right now. Please double-check your information to ensure it is correct.";
+
+                return BadRequest( new { message });
             }
 
             ApplicationUser user = new ApplicationUser {
@@ -57,24 +64,36 @@ namespace Assignment2.Controllers
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
 
+            var check = await _userManager.FindByNameAsync(user.Email);
+            if(check == null) {
+                _logger.LogWarning($"USER REGISTRATION: {check.Email} already exists. Must be a unique email address.");
+                message = "Sorry! We are unable to register you right now. Please try again later.";
+
+                return BadRequest(new { message});
+            } 
+
             var result = await _userManager.CreateAsync(user);
-            if (result.Succeeded) {
+            if (result.Succeeded && check == null) {
                 await _userManager.AddPasswordAsync(user, model.Password);
                 await _userManager.AddToRoleAsync(user, ApplicationRole.CHILD);
-                _logger.LogDebug($"CREATE USER: User registered: { user.Email } \n");
-                string message = "registered successfully"; 
-                return Ok(message);
-            }
-            else {
-                _logger.LogWarning($"CREATE USER: Unable to register user: { user.Email } \n");
-                string error = "Sorry! Unable to register you right now.";
 
-                return Unauthorized(new { UserName = user.UserName, error });
+                _logger.LogDebug($"CREATE USER: User registered: { user.Email } \n");
+                message = "Thank you! You have successfully registered"; 
+
+                return Ok(new {message});
+            } else {
+                _logger.LogWarning($"CREATE USER: Unable to register user: { user.Email } \n");
+                 message = "Sorry! Unable to register you right now.";
+
+                return Unauthorized( new { message });
             }
         }
 
+        // POST: /Auth/Login
         [HttpPost]
         public async Task<ActionResult> Login([FromBody] Login model) {
+            string message;
+            
             var user = await _userManager.FindByEmailAsync(model.Email);
 
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password)) {
@@ -87,8 +106,7 @@ namespace Assignment2.Controllers
                     new Claim(ClaimTypes.Role, roles[0])
                 };
                 _logger.LogWarning("CLAIM CREATED FOR: " + user.Email);
-                var signinKey = new SymmetricSecurityKey(
-                  Encoding.UTF8.GetBytes(_configuration["Jwt:SigningKey"]));
+                var signinKey = new SymmetricSecurityKey( Encoding.UTF8.GetBytes(_configuration["Jwt:SigningKey"]));
 
                 int expiryInMinutes = Convert.ToInt32(_configuration["Jwt:ExpiryInMinutes"]);
 
@@ -101,24 +119,31 @@ namespace Assignment2.Controllers
                 );
 
                 _logger.LogDebug($"Token created for {model.Email}");
+                message = "Success! You are able to login now."; 
 
                 return Ok( // return status code 200 and a token
                   new {
                       token = new JwtSecurityTokenHandler().WriteToken(token),
                       expiration = token.ValidTo,
-                      role = roles[0]
+                      role = roles[0],
+                      message = message 
                   });
             }
             else {
                 _logger.LogError($"Token was not created for { model.Email }");
             }
-            return Unauthorized();
+
+            message = "Incorrect email or password combination.";
+            return Unauthorized(new { message });
         }
 
+        // POST: /Auth/Logout
         [HttpPost]
         public async Task<ActionResult> Logout() {
+            string message = "Thank you! Logout successful. See you again soon.";
             await _signInManager.SignOutAsync();
-            return Ok();
+
+            return Ok( new { message });
         }
     }
 }
